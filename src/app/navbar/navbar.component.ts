@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -10,13 +10,17 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent implements OnInit{
-  ngOnInit() {
-    const hamburgerMenu = document.querySelector(".hamburger-menu") as HTMLElement | null;
-    const container = document.querySelector(".container") as HTMLElement | null;
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-    hamburgerMenu?.addEventListener("click", () => {
-      container?.classList.toggle("active");
-    });
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      const hamburgerMenu = document.querySelector(".hamburger-menu") as HTMLElement | null;
+      const container = document.querySelector(".container") as HTMLElement | null;
+
+      hamburgerMenu?.addEventListener("click", () => {
+        container?.classList.toggle("active");
+      });
+    }
   }
 
 }
