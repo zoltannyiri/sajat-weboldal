@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -9,15 +9,14 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
-export class NavbarComponent {
-  @ViewChild('hamburgerMenu', { static: true }) hamburgerMenu!: ElementRef;
-  @ViewChild('container', { static: true }) container!: ElementRef;
-
+export class NavbarComponent implements OnInit{
   ngOnInit() {
-    this.hamburgerMenu.nativeElement.addEventListener('click', () => this.toggleMenu());
+    const hamburgerMenu = document.querySelector(".hamburger-menu") as HTMLElement | null;
+    const container = document.querySelector(".container") as HTMLElement | null;
+
+    hamburgerMenu?.addEventListener("click", () => {
+      container?.classList.toggle("active");
+    });
   }
 
-  toggleMenu() {
-    this.container.nativeElement.classList.toggle('active');
-  }
 }
